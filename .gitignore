@@ -2,4 +2,4 @@ env
 .history
 .DS_Store
 .envrc
-__pycache__
+__pycache__ 
