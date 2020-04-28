@@ -72,13 +72,12 @@ class DriverClass:
             message='Cannot find element by xpath %s' % (xpath)
         )
 
-
 class WhatsappMessaging (DriverClass):
     '''
     Class that holds the  whatsapp messaging  automation
     '''
     def __init__(self):
-        self.super()
+        super().__init__()
 
     def get_login_qr_code(self, qr_class_name: str = '._11ozL') -> Image:
         '''
@@ -88,9 +87,9 @@ class WhatsappMessaging (DriverClass):
         : qr_class_name: css class name of div containing the qr code
         : return: return a PIL Image with the qr code.
         '''
-        self.driver.go_to(MAIN_URL)
+        self.go_to(MAIN_URL)
         time.sleep(3)
-        get_qr = driver.get_element(qr_class_name)
+        get_qr = self.get_element(qr_class_name)
         qr_string = get_qr.get_attribute('data-ref')
         return qrcode.make(qr_string)
     
@@ -101,14 +100,18 @@ class WhatsappMessaging (DriverClass):
         : contact: name of the contact
         : message: message to send to the contact
         '''
+        # Click on the correct select box.
+        search_user = self.get_element('.selectable-text')
+        search_user.click()
+        time.sleep(2)
 
-        # Search and select the user
+        # Search and select the user.
         search_user.send_keys(contact)
         search_user.send_keys(u'\ue007')
         time.sleep(2)
 
         # Select the text input in the footer
-        footer = driver.get_element('footer')
+        footer = self.get_element('footer')
         text_input = footer.find_element_by_class_name('selectable-text')
 
         # Write and send the  message
@@ -120,5 +123,5 @@ class WhatsappMessaging (DriverClass):
         '''
         Method to return to main menu after an instruction is finished.
         '''
-        self.driver.go_to(MAIN_URL)
+        self.go_to(MAIN_URL)
 

@@ -1,0 +1,14 @@
+Write a queue system for message requests
+Write an API to login a user and creates messages to send
+Write a checker (tests) that make sure all routes are accessible
+
+
+Queue:
+-> create API to:
+-> Login in the driver to  a user
+-> Creates new messages
+-> ChroneJob that send create message requests
+-> Interface to login
+-> Increase process speed -> if already on a user, don't search for the user again
+-> secure he API
+- write tests
