@@ -78,6 +78,7 @@ class WhatsappMessaging (DriverClass):
     '''
     def __init__(self):
         super().__init__()
+        self.logged_in = False
 
     def get_login_qr_code(self, qr_class_name: str = '._11ozL') -> Image:
         '''
@@ -124,4 +125,16 @@ class WhatsappMessaging (DriverClass):
         Method to return to main menu after an instruction is finished.
         '''
         self.go_to(MAIN_URL)
+    
+    def check_if_user_logged_in(self) -> None:
+        '''
+        Method to check if the user is actually logged in the driver.
+        '''
+        try:
+            side_bar = self.get_element('#side')
+            self.logged_in = True
+        except Exception as e:
+            self.logged_in = False
+        
+        return self.logged_in
 

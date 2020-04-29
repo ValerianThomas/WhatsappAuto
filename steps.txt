@@ -6,9 +6,11 @@ Write a checker (tests) that make sure all routes are accessible
 Queue:
 -> create API to:
 -> Login in the driver to  a user
--> Creates new messages
+-> Detect when a login is done (to remove the qr code and continue with next steps)
+-> Start message queue only if user logged in (should start message queue on login)
+-> Re-add into the queue message 
 -> ChroneJob that send create message requests
 -> Interface to login
 -> Increase process speed -> if already on a user, don't search for the user again
--> secure he API
+-> secure the API
 - write tests

@@ -1,21 +1,28 @@
 import os
-from multiprocessing import Queue
+import time
 from threading import Thread
+from multiprocessing import Queue
 from pymodm.connection import connect
+
 from whatsapp.models.message import Message
 from whatsapp.driver_class import WhatsappMessaging
-import time
+
 class MessageQueue:
-    instanciated = False
+    instance = None
+    @classmethod
+    def get_message_queue(cls):
+        if cls.instance == None:
+            cls.instance = MessageQueue()
+        return cls.instance
     def __init__(self):
         '''
         Start queue instance 
         '''
-        if not MessageQueue.instanciated:
-            connect(os.environ.get('MONGO_CLIENT',''), retryWrites=False)
-            MessageQueue.instanciated = True
-            self.queue  = Queue()
-            self.driver =  WhatsappMessaging()
+        connect(os.environ.get('MONGO_CLIENT',''), retryWrites=False)
+        self.thread = None
+        MessageQueue.instanciated = True
+        self.queue  = Queue()
+        self.driver =  WhatsappMessaging()
     
     def get_message(self) -> None:
         '''
@@ -57,6 +64,7 @@ class MessageQueue:
         '''
         Start the worker whatsapp worker
         '''
-        running_worker = Thread(target=self.worker)
-        running_worker.start()
+        if self.thread == None:
+            self.thread = Thread(target=self.worker)
+            self.thread.start()
 
